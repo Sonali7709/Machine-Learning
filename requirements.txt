@@ -1,0 +1,9 @@
+numpy
+pandas
+seaborn
+xgboost
+matplotlib
+dill
+scikit-learn
+catboost
+-e .
