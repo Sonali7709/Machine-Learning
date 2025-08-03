@@ -11,6 +11,7 @@ import dill
 
 from sklearn.metrics import accuracy_score, f1_score
 
+from sklearn.model_selection import GridSearchCV 
             
 def save_object(file_path, obj):
     """
@@ -50,6 +51,52 @@ def evaluate_model(X_train, y_train, X_test, y_test, models):
             }
 
         return report
+
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+    
+    
+    
+    
+def tune_and_evaluate_models(X_train, y_train, X_test, y_test, models, param_grids):
+    """
+    ✅ New function: Performs hyperparameter tuning using GridSearchCV and evaluates models.
+    """
+    try:
+        tuned_models = {}
+        report = {}
+
+        for model_name, model in models.items():
+            print(f"\n🔍 Tuning {model_name}...")
+            params = param_grids.get(model_name, {})
+
+            if params:  # If tuning parameters exist
+                grid = GridSearchCV(model, params, cv=3, scoring='accuracy', n_jobs=-1)
+                grid.fit(X_train, y_train)
+                best_model = grid.best_estimator_
+                print(f"✅ Best Params: {grid.best_params_}")
+            else:
+                model.fit(X_train, y_train)
+                best_model = model
+                print("ℹ️ No tuning parameters for this model.")
+
+            tuned_models[model_name] = best_model
+
+            y_train_pred = best_model.predict(X_train)
+            y_test_pred = best_model.predict(X_test)
+
+            train_acc = accuracy_score(y_train, y_train_pred)
+            test_acc = accuracy_score(y_test, y_test_pred)
+            f1 = f1_score(y_test, y_test_pred, average="weighted")
+
+            report[model_name] = {
+                "Accuracy": test_acc,
+                "Train Score": train_acc,
+                "F1 Score": f1
+            }
+
+        return report, tuned_models
 
     except Exception as e:
         raise CustomException(e, sys)
