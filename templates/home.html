@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Failure Prediction Form</title>
+</head>
+<body>
+    <h2>Enter Machine Data</h2>
+    <form action="/predictdata" method="POST">
+        <label for="Type">Type:</label>
+        <input type="text" id="Type" name="Type" required><br><br>
+
+        <label for="Air_temperature_K">Air Temperature [K]:</label>
+        <input type="number" step="0.01" id="Air_temperature_K" name="Air_temperature_K" required><br><br>
+
+        <label for="Process_temperature_K">Process Temperature [K]:</label>
+        <input type="number" step="0.01" id="Process_temperature_K" name="Process_temperature_K" required><br><br>
+
+        <label for="Rotational_speed_rpm">Rotational Speed [rpm]:</label>
+        <input type="number" id="Rotational_speed_rpm" name="Rotational_speed_rpm" required><br><br>
+
+        <label for="Torque_Nm">Torque [Nm]:</label>
+        <input type="number" step="0.01" id="Torque_Nm" name="Torque_Nm" required><br><br>
+
+        <label for="Tool_wear_min">Tool Wear [min]:</label>
+        <input type="number" id="Tool_wear_min" name="Tool_wear_min" required><br><br>
+
+        <label for="Target">Target:</label>
+        <input type="number" step="0.01" id="Target" name="Target" required><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if results %}
+        <h3>Prediction: {{ results }}</h3>
+    {% endif %}
+</body>
+</html>

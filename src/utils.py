@@ -12,6 +12,15 @@ import dill
 from sklearn.metrics import accuracy_score, f1_score
 
 from sklearn.model_selection import GridSearchCV 
+
+
+def load_object(file_path):
+        try:
+            with open(file_path, "rb") as file_obj:
+                    return dill.load(file_obj)
+        
+        except Exception as e:
+                raise CustomException(e, sys)
             
 def save_object(file_path, obj):
     """
@@ -100,3 +109,6 @@ def tune_and_evaluate_models(X_train, y_train, X_test, y_test, models, param_gri
 
     except Exception as e:
         raise CustomException(e, sys)
+    
+    
+    

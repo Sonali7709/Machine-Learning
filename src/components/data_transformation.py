@@ -87,7 +87,7 @@ class DataTransformation:
             logging.info(f"Encoded classes: {list(label_encoder.classes_)}")
             logging.info(f"First 10 encoded target values (train): {train_df[target_column_name].head(10).tolist()}")
             logging.info(f"First 10 encoded target values (test): {test_df[target_column_name].head(10).tolist()}")
-        # Preprocessor
+            # Preprocessor
             preprocessing_obj = self.get_data_transformer_object()
 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
@@ -100,11 +100,11 @@ class DataTransformation:
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
 
-        # Combine processed features with target
+            # Combine processed features with target
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-        # Save preprocessing object
+            # Save preprocessing object
             logging.info(f"Saving preprocessing object to: {os.path.abspath(self.data_transformation_config.preprocessor_obj_file_path)}")
 
         
@@ -122,6 +122,6 @@ class DataTransformation:
             )
 
         except Exception as e:
-                raise CustomException(e, sys)
+            raise CustomException(e, sys)
 
 
